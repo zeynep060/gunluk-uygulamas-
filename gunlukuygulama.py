@@ -5,8 +5,8 @@ import json
 from datetime import datetime
 import random
 
+# Kullanıcı adını JSON dosyasından almak için fonksiyon
 def get_username():
-    """Retrieve the username from a JSON file."""
     try:
         with open("user_info.json", "r") as file:
             user_info = json.load(file)
@@ -14,22 +14,22 @@ def get_username():
     except FileNotFoundError:
         return None
 
+# Kullanıcı adını JSON dosyasına kaydetmek için fonksiyon
 def save_username(username):
-    """Save the username to a JSON file."""
     user_info = {"username": username}
     with open("user_info.json", "w") as file:
         json.dump(user_info, file)
 
+# Bir frame'i göstermek ve önceki frame'i gizlemek için fonksiyon
 def show_frame(frame):
-    """Show the specified frame and hide the previous one."""
     global previous_frame
     if previous_frame is not None:
         previous_frame.pack_forget()
     frame.pack(fill='both', expand=True, padx=10, pady=10)
     previous_frame = frame
 
+# Günlük yazısını JSON dosyasına kaydetmek için fonksiyon
 def save_entry():
-    """Save a diary entry to a JSON file."""
     title = entry_title.get().strip()
     entry = entry_text.get("1.0", tk.END).strip()
     if title and entry:
@@ -49,13 +49,13 @@ def save_entry():
     else:
         messagebox.showwarning("Uyarı", "Başlık ve günlük yazısı boş olamaz!")
 
+# Günlük yazısı frame'ini göstermek için fonksiyon
 def show_diary_frame():
-    """Display the diary entry frame."""
     show_frame(diary_frame)
 
+# Rastgele bir günlük yazısını hatırlatmak için fonksiyon
 def recall_memory():
-    """Recall a random memory from the diary entries."""
-    memory_frame = tk.Frame(main_frame, bg='#E6E6FA')  # Lavanta
+    memory_frame = tk.Frame(main_frame, bg='#E6E6FA')  # Lavanta rengi
     
     try:
         with open("diary.json", "r") as file:
@@ -73,9 +73,9 @@ def recall_memory():
     
     show_frame(memory_frame)
 
+# Zaman kapsülü oluşturma frame'ini göstermek için fonksiyon
 def time_capsule():
-    """Display the time capsule creation frame."""
-    capsule_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu
+    capsule_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu rengi
     
     tk.Label(capsule_frame, text="Zaman Kapsülü Başlığı (İsteğe Bağlı):", font=font, bg='#FFFACD', fg='#4B0082').pack(pady=10)
     capsule_title_entry = tk.Entry(capsule_frame, width=60, font=font)
@@ -89,8 +89,8 @@ def time_capsule():
     capsule_date_entry = tk.Entry(capsule_frame, font=font)
     capsule_date_entry.pack()
 
+    # Zaman kapsülü verilerini JSON dosyasına kaydetmek için fonksiyon
     def save_capsule():
-        """Save the time capsule data to a JSON file."""
         title = capsule_title_entry.get().strip()
         message = capsule_message_text.get("1.0", tk.END).strip()
         open_date = capsule_date_entry.get().strip()
@@ -116,7 +116,7 @@ def time_capsule():
         else:
             messagebox.showwarning("Uyarı", "Mesaj ve açılma tarihi boş olamaz!")
 
-    save_button = tk.Button(capsule_frame, text="Kaydet", command=save_capsule, bg='#4682B4', fg='#FFFFFF', font=font)  # Çelik Mavi
+    save_button = tk.Button(capsule_frame, text="Kaydet", command=save_capsule, bg='#4682B4', fg='#FFFFFF', font=font)  # Çelik Mavi rengi
     save_button.pack(pady=10)
     
     time_capsules_button = tk.Button(capsule_frame, text="Zaman Kapsüllerim", command=show_time_capsules, bg='#4682B4', fg='#FFFFFF', font=font)
@@ -124,9 +124,9 @@ def time_capsule():
     
     show_frame(capsule_frame)
 
+# Geçmiş günlük yazılarını göstermek için fonksiyon
 def show_past_entries():
-    """Display the past diary entries frame."""
-    past_entries_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu
+    past_entries_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu rengi
     
     canvas = tk.Canvas(past_entries_frame, bg='#FFFACD')
     scrollbar = tk.Scrollbar(past_entries_frame, orient="vertical", command=canvas.yview)
@@ -162,13 +162,13 @@ def show_past_entries():
     canvas.pack(side="left", fill="both", expand=True)
     scrollbar.pack(side="right", fill="y")
     
-    back_button = tk.Button(past_entries_frame, text="Geri", command=show_diary_frame, bg='#F0E68C', fg='#00008B', font=font)  # Sarı
+    back_button = tk.Button(past_entries_frame, text="Geri", command=show_diary_frame, bg='#F0E68C', fg='#00008B', font=font)  # Sarı rengi
     back_button.pack(side='bottom', anchor='e', padx=10, pady=10)
     
     show_frame(past_entries_frame)
 
+# Günlük yazısını silmek için fonksiyon
 def delete_entry(index):
-    """Delete a diary entry."""
     try:
         with open("diary.json", "r") as file:
             diary = json.load(file)
@@ -181,8 +181,8 @@ def delete_entry(index):
             json.dump(diary, file, indent=4)
         show_past_entries()
 
+# Günlük yazısının detaylarını göstermek için fonksiyon
 def show_entry_details(index):
-    """Show details of a specific diary entry."""
     try:
         with open("diary.json", "r") as file:
             diary = json.load(file)
@@ -202,9 +202,9 @@ def show_entry_details(index):
         
         show_frame(details_frame)
 
+# Zaman kapsüllerini göstermek için fonksiyon
 def show_time_capsules():
-    """Display the time capsules frame."""
-    time_capsules_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu
+    time_capsules_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu rengi
     
     canvas = tk.Canvas(time_capsules_frame, bg='#FFFACD')
     scrollbar = tk.Scrollbar(time_capsules_frame, orient="vertical", command=canvas.yview)
@@ -247,8 +247,8 @@ def show_time_capsules():
     
     show_frame(time_capsules_frame)
 
+# Zaman kapsülünü silmek için fonksiyon
 def delete_capsule(index):
-    """Delete a time capsule."""
     try:
         with open("time_capsules.json", "r") as file:
             time_capsules = json.load(file)
@@ -261,8 +261,8 @@ def delete_capsule(index):
             json.dump(time_capsules, file, indent=4)
         show_time_capsules()
 
+# Zaman kapsülünün detaylarını göstermek için fonksiyon
 def show_capsule_details(index):
-    """Show details of a specific time capsule."""
     try:
         with open("time_capsules.json", "r") as file:
             time_capsules = json.load(file)
@@ -297,19 +297,19 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Günlük Uygulaması")
     root.geometry("800x600")
-    font = tkfont.Font(family="Helvetica", size=12, weight="bold")  # Kalın yazı tipi
+    font = tkfont.Font(family="Helvetica", size=12, weight="bold")
     
-    menu_frame = tk.Frame(root, width=200, bg='#D8BFD8')  # Açık Mor
+    menu_frame = tk.Frame(root, width=200, bg='#D8BFD8')  # Açık Mor rengi
     menu_frame.pack(side='left', fill='y')
     menu_title = tk.Label(menu_frame, text="Menü", font=("Helvetica", 16, "bold"), bg='#D8BFD8', fg='#FFFFFF')
     menu_title.pack(pady=10)
     
-    main_frame = tk.Frame(root, bg='#E6E6FA')  # Lavanta
+    main_frame = tk.Frame(root, bg='#E6E6FA')  # Lavanta rengi
     main_frame.pack(side='right', fill='both', expand=True)
     
     previous_frame = None
     
-    diary_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu
+    diary_frame = tk.Frame(main_frame, bg='#FFFACD')  # Limon Şifonu rengi
     entry_label = tk.Label(diary_frame, text="Günlük Başlığı:", bg='#FFFACD', fg='#4B0082', font=font)
     entry_label.pack()
     entry_title = tk.Entry(diary_frame, width=60, font=font)
@@ -318,7 +318,7 @@ if __name__ == "__main__":
     entry_text_label.pack()
     entry_text = tk.Text(diary_frame, height=20, width=60, font=font)
     entry_text.pack()
-    save_button = tk.Button(diary_frame, text="Kaydet", command=save_entry, bg='#4682B4', fg='#FFFFFF', font=font)  # Çelik Mavi
+    save_button = tk.Button(diary_frame, text="Kaydet", command=save_entry, bg='#4682B4', fg='#FFFFFF', font=font)  # Çelik Mavi rengi
     save_button.pack(pady=10)
     past_entries_button = tk.Button(diary_frame, text="Geçmiş Günlükler", command=show_past_entries, bg='#4682B4', fg='#FFFFFF', font=font)
     past_entries_button.pack(pady=10)
